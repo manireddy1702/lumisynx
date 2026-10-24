@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAXTRIX v2.0 - Cooperative Adaptive Headlight Intelligence Digital Twin</title>
+  <meta name="description" content="MAXTRIX v2.0 / LumiSynx - High-fidelity automotive digital twin simulation for cooperative adaptive headlight luminance control, vehicle-to-vehicle (V2V) anti-glare communication, and explainable AI decision analysis.">
+  
+  <!-- Modern Typography from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP NAVIGATION & STATUS BAR
+       ======================================================================== -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="brand-logo-badge" title="MAXTRIX v2.0 Cooperative Automotive Intelligence">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="brand-titles">
+        <h1>MAXTRIX <span class="ver-tag">v2.0 TWIN</span></h1>
+        <p>Cooperative Adaptive Headlight &amp; V2V Intelligence System</p>
+      </div>
+    </div>
+
+    <!-- Scenarios & Simulation Controls -->
+    <div class="header-actions">
+      <!-- Scenario Selector -->
+      <div class="scenario-pill-select" title="Select Pre-Configured Test Scenario">
+        <span>SCENARIO</span>
+        <select id="selectScenario">
+          <option value="clear_highway">Clear Night Highway Cruising</option>
+          <option value="glare_pass">High-Speed Oncoming Glare Pass</option>
+          <option value="heavy_rain">Heavy Rain &amp; Wet Asphalt</option>
+          <option value="dense_fog">Dense Mountain Fog Hazard</option>
+          <option value="urban_traffic">Urban Streetlit Traffic</option>
+          <option value="tunnel">Tunnel Entry &amp; Full Beam</option>
+          <option value="emergency">Emergency Responder Passing</option>
+          <option value="spoof_attack">Malicious V2V Spoof Attack</option>
+        </select>
+      </div>
+
+      <!-- Playback Control Group -->
+      <div class="sim-control-group">
+        <button id="btnPlay" class="sim-btn active-play" title="Run Simulation">Play</button>
+        <button id="btnPause" class="sim-btn" title="Pause Simulation">Pause</button>
+        <button id="btnStep" class="sim-btn" title="Step 40ms Forward">Step</button>
+        <button id="btnReset" class="sim-btn" title="Reset Traffic &amp; Position">Reset</button>
+        <select id="selectSpeed" class="speed-select" title="Simulation Speed Multiplier">
+          <option value="0.5">0.5x</option>
+          <option value="1.0" selected>1.0x Realtime</option>
+          <option value="2.0">2.0x Fast</option>
+          <option value="5.0">5.0x Turbo</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Right Header Status & Tools -->
+    <div class="header-status">
+      <button id="btnToggleSidebar" class="header-icon-btn" title="Toggle Sidebar Controls">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+      </button>
+
+      <div id="statusBadge" class="status-badge" title="Current Active Control Mode">
+        <span id="modePillText">COOPERATIVE V2V</span>
+      </div>
+
+      <button id="btnSoundToggle" class="header-icon-btn" title="Toggle Synthesized Audio Feedback">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+      </button>
+
+      <button id="btnSlidesModal" class="header-icon-btn" title="Open Project Technical Slides &amp; Architecture">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+        </svg>
+      </button>
+
+      <button id="btnFullscreen" class="header-icon-btn" title="Toggle Fullscreen View">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       MAIN DASHBOARD CONTAINER
+       ======================================================================== -->
+  <main class="dashboard-container">
+
+    <!-- ======================================================================
+         LEFT SIDEBAR: CONTROLS & ENVIRONMENT
+         ====================================================================== -->
+    <aside class="sidebar-controls">
+
+      <!-- 1. Operation Mode Card -->
+      <section class="glass-panel">
+        <div class="panel-header">
+          <span class="panel-title">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            Operation Mode
+          </span>
+        </div>
+        <div class="panel-body control-section">
+          <div class="mode-toggle-group">
+            <button id="btnModeSim" class="mode-radio-btn active">Cooperative Highway</button>
+            <button id="btnModeManual" class="mode-radio-btn">Manual Sliders</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Environment & Road Conditions -->
+      <section class="glass-panel">
+        <div class="panel-header">
+          <span class="panel-title">
+            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+            Environment &amp; Road
+          </span>
+        </div>
+        <div class="panel-body control-section">
+          <!-- Road Type Dropdown -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <span>Road Type:</span>
+            </div>
+            <select id="selectRoadType" class="select-control">
+              <option value="Highway" selected>Highway (100% Base)</option>
+              <option value="Urban">Urban City (45% DRL)</option>
+              <option value="Village">Rural Village (70% Base)</option>
+              <option value="Tunnel">Tunnel (100% Base)</option>
+              <option value="Mountain Roads">Mountain Roads (100% Base)</option>
+            </select>
+          </div>
+
+          <!-- Weather Dropdown -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <span>Weather State:</span>
+            </div>
+            <select id="selectWeather" class="select-control">
+              <option value="Clear" selected>Clear Night (100% Vis)</option>
+              <option value="Rain">Rain (15% Scattering)</option>
+              <option value="Heavy Rain">Heavy Rain (35% Scattering)</option>
+              <option value="Fog">Dense Fog (55% Scattering)</option>
+              <option value="Dust">Dust Storm (25% Scattering)</option>
+              <option value="Mist">Mist (20% Scattering)</option>
+            </select>
+          </div>
+
+          <!-- Regulatory Safety Standard -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <span>Regulatory Standard:</span>
+            </div>
+            <select id="selectRegulation" class="select-control">
+              <option value="India" selected>India (AIS-008 Standard)</option>
+              <option value="Europe">Europe (ECE R123 Standard)</option>
+              <option value="United States">USA (FMVSS 108 Standard)</option>
+              <option value="Experimental">Experimental (Unrestricted)</option>
+            </select>
+          </div>
+
+          <!-- Ambient Light Slider -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <span>Ambient Light:</span>
+              <span id="valAmbient" class="label-val">0.05 klux</span>
+            </div>
+            <input id="sliderAmbient" type="range" class="slider-control" min="0" max="2.0" step="0.01" value="0.05">
+          </div>
+
+          <!-- Photodiode Glare Slider -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <span>Photodiode Glare (Manual):</span>
+              <span id="valPd" class="label-val">0.00 V</span>
+            </div>
+            <input id="sliderPd" type="range" class="slider-control" min="0" max="3.3" step="0.01" value="0" disabled>
+          </div>
+
+          <!-- Own Vehicle Speed -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <span>Own Speed (V2V-101):</span>
+              <span id="valOwnSpeed" class="label-val">50 km/h</span>
+            </div>
+            <input id="sliderOwnSpeed" type="range" class="slider-control" min="0" max="140" step="1" value="50">
+          </div>
+
+          <!-- Peer Vehicle Speed -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <span>Peer Speed (V2V-102):</span>
+              <span id="valPeerSpeed" class="label-val">60 km/h</span>
+            </div>
+            <input id="sliderPeerSpeed" type="range" class="slider-control" min="0" max="140" step="1" value="60">
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. V2V Link & Security Panel -->
+      <section class="glass-panel">
+        <div class="panel-header">
+          <span class="panel-title">
+            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+            V2V Link &amp; Security
+          </span>
+        </div>
+        <div class="panel-body control-section">
+          <div class="switch-row">
+            <span>Enable V2V Radio:</span>
+            <label class="switch">
+              <input id="checkV2vEnable" type="checkbox" checked>
+              <span class="slider-toggle"></span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label-row">
+              <span>Simulated Packet Loss:</span>
+              <span id="valPacketLoss" class="label-val">0%</span>
+            </div>
+            <input id="sliderPacketLoss" type="range" class="slider-control" min="0" max="80" step="1" value="0">
+          </div>
+
+          <button id="btnSpoof" class="btn-spoof" title="Inject Out-of-Sequence Teleportation Packet">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+            </svg>
+            Inject V2V Spoof Attack
+          </button>
+        </div>
+      </section>
+
+      <!-- 4. NVS Flash Calibration -->
+      <section class="glass-panel">
+        <div class="panel-header">
+          <span class="panel-title">
+            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            NVS Flash Calibration
+          </span>
+        </div>
+        <div class="panel-body">
+          <div class="cal-scroll-box">
+            <div class="cal-section-title">Decision Weights</div>
+            <div class="form-group">
+              <div class="form-label-row">
+                <span>Photodiode Gain:</span>
+              </div>
+              <input id="inputPdGain" type="number" class="select-control" min="0.1" max="5.0" step="0.1" value="1.2">
+            </div>
+            <div class="form-group">
+              <div class="form-label-row">
+                <span>V2V CRF Gain:</span>
+              </div>
+              <input id="inputV2vGain" type="number" class="select-control" min="0.1" max="5.0" step="0.1" value="1.5">
+            </div>
+            <div class="form-group">
+              <div class="form-label-row">
+                <span>Dim Range Threshold (m):</span>
+              </div>
+              <input id="inputCrfDist" type="number" class="select-control" min="20" max="150" step="5" value="80">
+            </div>
+            <div class="form-group">
+              <div class="form-label-row">
+                <span>Prediction Horizon Weight:</span>
+              </div>
+              <input id="inputPredWeight" type="number" class="select-control" min="0" max="1" step="0.05" value="0.5">
+            </div>
+            <div class="form-group">
+              <div class="form-label-row">
+                <span>Slew Rate Limit (%/100ms):</span>
+              </div>
+              <input id="inputSlewRate" type="number" class="select-control" min="1" max="25" step="0.5" value="5.0">
+            </div>
+
+            <div class="cal-section-title">Human Comfort Weights</div>
+            <div class="form-group">
+              <div class="form-label-row">
+                <span>Visibility Weight (w_vis):</span>
+              </div>
+              <input id="inputWVis" type="number" class="select-control" min="0" max="1" step="0.05" value="0.4">
+            </div>
+            <div class="form-group">
+              <div class="form-label-row">
+                <span>Glare-Free Weight (w_glare):</span>
+              </div>
+              <input id="inputWGlare" type="number" class="select-control" min="0" max="1" step="0.05" value="0.4">
+            </div>
+            <div class="form-group">
+              <div class="form-label-row">
+                <span>Stability Weight (w_stab):</span>
+              </div>
+              <input id="inputWStab" type="number" class="select-control" min="0" max="1" step="0.05" value="0.2">
+            </div>
+          </div>
+
+          <div class="btn-action-row">
+            <button id="btnSaveCal" class="btn-secondary" title="Save to LocalStorage Flash">Write NVS</button>
+            <button id="btnResetCal" class="btn-secondary" title="Reset Factory Defaults">Reset Defaults</button>
+          </div>
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- ======================================================================
+         RIGHT CONTENT: 2D ROAD SIMULATION, GAUGES, ANALYSIS & TELEMETRY
+         ====================================================================== -->
+    <section class="main-content">
+
+      <!-- 1. 2D Bird's-Eye Road Simulation Canvas -->
+      <section class="glass-panel">
+        <div class="panel-header">
+          <span class="panel-title">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            2D Bird's-Eye Road Simulation &amp; Adaptive Beam Cutouts
+          </span>
+          <div style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);">
+            60 FPS CANVAS ENGINE
+          </div>
+        </div>
+        <div class="road-canvas-container">
+          <canvas id="roadCanvas"></canvas>
+          <div class="canvas-floating-hud">
+            <div class="hud-row"><span>Scale:</span><span>8 px / meter</span></div>
+            <div class="hud-row"><span>Horizon:</span><span>2.0s Kinematic</span></div>
+            <div class="hud-row"><span>Protocol:</span><span>ESP-NOW 2.4GHz</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Middle Row: Performance Gauges, Decision Analysis & Traffic Table -->
+      <div class="middle-grid">
+
+        <!-- Column A: 4 Circular Gauges -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <span class="panel-title">Performance</span>
+          </div>
+          <div class="panel-body">
+            <div class="gauges-grid">
+              <div id="gaugeOwnComfort"></div>
+              <div id="gaugeV2vConfidence"></div>
+              <div id="gaugePeerComfort"></div>
+              <div id="gaugeSensorConfidence"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column B: Dual Vehicle Decision Analysis (Explainable AI) -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <span class="panel-title">
+              Decision Analysis &mdash; Explainable AI (Req #3)
+            </span>
+          </div>
+          <div class="panel-body">
+            <div class="decision-dual-cols">
+              <!-- Own Vehicle Column -->
+              <div class="decision-col">
+                <div class="veh-col-header own">
+                  OWN VEHICLE (V2V-101)
+                </div>
+                <div id="lblOwnPwm" class="decision-pwm-headline">100% <span class="duty-label">TARGET: 100%</span></div>
+                <div id="lblOwnPrimary" class="primary-reason-pill">No Traffic Detected</div>
+                <div id="lblOwnSecondary" class="secondary-reason-text">Full beam illumination</div>
+                <div class="param-metric-list">
+                  <div class="param-metric-row"><span>Metrics:</span><span id="lblOwnDetails" class="val">SPD: 50 | GLR: 0%</span></div>
+                  <div class="param-metric-row"><span>Health:</span><span id="lblOwnComfort" class="val">Comfort: 100%</span></div>
+                  <div class="param-metric-row"><span>Status:</span><span id="lblOwnMode" class="val">Mode: Cooperative</span></div>
+                  <div class="param-metric-row"><span>Safety:</span><span id="lblOwnBounds" class="val">Min: 10% | Max: 100%</span></div>
+                </div>
+              </div>
+
+              <!-- Center Vertical Divider -->
+              <div class="decision-divider"></div>
+
+              <!-- Peer Vehicle Column -->
+              <div class="decision-col">
+                <div class="veh-col-header peer">
+                  PEER VEHICLE (V2V-102)
+                </div>
+                <div id="lblPeerPwm" class="decision-pwm-headline">100% <span class="duty-label">TARGET: 100%</span></div>
+                <div id="lblPeerPrimary" class="primary-reason-pill">Approaching V2V-101</div>
+                <div id="lblPeerSecondary" class="secondary-reason-text">Cooperative dimming initiated</div>
+                <div class="param-metric-list">
+                  <div class="param-metric-row"><span>Metrics:</span><span id="lblPeerDetails" class="val">DIST: 80m | SPD: 60</span></div>
+                  <div class="param-metric-row"><span>Health:</span><span id="lblPeerComfort" class="val">Peer Comfort: 100%</span></div>
+                  <div class="param-metric-row"><span>Status:</span><span id="lblPeerMode" class="val">Mode: Cooperative</span></div>
+                  <div class="param-metric-row"><span>Safety:</span><span id="lblPeerBounds" class="val">Min: 10% | Max: 100%</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column C: Traffic & V2V Node Table -->
+        <div class="glass-panel traffic-table-card">
+          <div class="panel-header">
+            <span class="panel-title">Traffic &amp; V2V Nodes</span>
+          </div>
+          <div class="panel-body" style="padding: 6px;">
+            <div class="traffic-table-wrapper">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Node ID</th>
+                    <th>Type</th>
+                    <th>Dist</th>
+                    <th>PWM</th>
+                    <th>Cmft</th>
+                    <th>V2V</th>
+                    <th>RSSI</th>
+                  </tr>
+                </thead>
+                <tbody id="trafficTableBody">
+                  <!-- Dynamic Rows populated by app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 3. Bottom Row: Tabbed Charts & Multi-Station Hub -->
+      <div class="bottom-grid">
+
+        <!-- Left: Tabbed Telemetry Line Chart -->
+        <div class="glass-panel">
+          <div class="tab-nav-bar">
+            <button class="tab-btn chart-tab-btn active" data-tab="brightness">Luminance PWM</button>
+            <button class="tab-btn chart-tab-btn" data-tab="comfort">Comfort &amp; Glare</button>
+            <button class="tab-btn chart-tab-btn" data-tab="v2v">V2V &amp; Predictions</button>
+          </div>
+          <div class="tab-content-container">
+            <div class="chart-container">
+              <canvas id="telemetryChartCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Multi-Station Hub (UART Terminal, System Health, Matrix LED Map) -->
+        <div class="glass-panel">
+          <div class="tab-nav-bar">
+            <button class="tab-btn station-tab-btn active" data-target="tabStationUart">UART Console</button>
+            <button class="tab-btn station-tab-btn" data-target="tabStationHealth">System Health</button>
+            <button class="tab-btn station-tab-btn" data-target="tabStationMatrix">Matrix LED Map</button>
+          </div>
+          
+          <!-- Tab A: UART Terminal -->
+          <div id="tabStationUart" class="station-tab-content" style="display: block;">
+            <div class="uart-terminal-container">
+              <div id="uartLogBox" class="uart-log-scroll"></div>
+              <div class="uart-footer-actions">
+                <label style="font-size: 10px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; cursor: pointer;">
+                  <input id="checkAutoScroll" type="checkbox" checked> Auto-Scroll
+                </label>
+                <div class="uart-btn-group">
+                  <button id="btnClearUart" class="uart-btn">Clear</button>
+                  <button id="btnExportCsv" class="uart-btn">Export CSV</button>
+                  <button id="btnAnalyticsReport" class="uart-btn">Analytics Report</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab B: System Health Panel -->
+          <div id="tabStationHealth" class="station-tab-content" style="display: none; padding: 12px;">
+            <div class="health-nodes-grid">
+              <div class="health-node-card">
+                <span class="node-name">Ambient Sensor:</span>
+                <span id="healthAmbient" class="node-status">OK</span>
+              </div>
+              <div class="health-node-card">
+                <span class="node-name">Photodiode (OPT101):</span>
+                <span id="healthPd" class="node-status">OK</span>
+              </div>
+              <div class="health-node-card">
+                <span class="node-name">V2V Transceiver:</span>
+                <span id="healthV2v" class="node-status">OK</span>
+              </div>
+              <div class="health-node-card">
+                <span class="node-name">Comm. Confidence:</span>
+                <span id="healthComm" class="node-status">STRONG</span>
+              </div>
+              <div class="health-node-card">
+                <span class="node-name">Prediction Engine:</span>
+                <span id="healthPrediction" class="node-status">2.0s PROJ</span>
+              </div>
+              <div class="health-node-card">
+                <span class="node-name">Regulatory Standards:</span>
+                <span id="healthRegulation" class="node-status">PASS</span>
+              </div>
+              <div class="health-node-card" style="grid-column: 1 / -1;">
+                <span class="node-name">Overall System State:</span>
+                <span id="healthOverall" class="node-status">NOMINAL</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 10px; font-size: 10px; color: var(--text-muted); display: flex; flex-direction: column; gap: 2px;">
+              <div id="lblHealthPackets">Rx: 0 | Lost: 0 | Rejected: 0</div>
+              <div id="lblHealthViolations">Security Violations: 0 (Firewall: Active)</div>
+            </div>
+          </div>
+
+          <!-- Tab C: Matrix LED Segment Array -->
+          <div id="tabStationMatrix" class="station-tab-content" style="display: none; padding: 10px;">
+            <div class="matrix-led-container">
+              <!-- Right Headlight Cluster (Towards Oncoming Lane) -->
+              <div class="matrix-row-wrap">
+                <div class="matrix-row-title">
+                  <span>RIGHT HEADLIGHT MATRIX (8 SECTORS)</span>
+                  <span>ONCOMING LANE FACING</span>
+                </div>
+                <div id="matrixRight" class="matrix-led-blocks">
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                </div>
+              </div>
+
+              <!-- Left Headlight Cluster (Curbside & Kerb) -->
+              <div class="matrix-row-wrap">
+                <div class="matrix-row-title">
+                  <span>LEFT HEADLIGHT MATRIX (8 SECTORS)</span>
+                  <span>KERB &amp; SHOULDER ILLUMINATION</span>
+                </div>
+                <div id="matrixLeft" class="matrix-led-blocks">
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                  <div class="led-segment-block"><div class="led-fill-bar"></div><span class="led-lbl">100%</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       MODAL 1: ARCHITECTURE SLIDES VIEWER
+       ======================================================================== -->
+  <div id="slidesModal" class="modal-backdrop">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          LumiSynx / MAXTRIX v2.0 &mdash; Technical Architecture Presentation
+        </div>
+        <button id="btnCloseSlides" class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="slide-nav-controls">
+          <button id="btnPrevSlide" class="btn-secondary">&larr; Previous Slide</button>
+          <span id="slideCounter" class="slide-counter">SLIDE 01 OF 15</span>
+          <button id="btnNextSlide" class="btn-secondary">Next Slide &rarr;</button>
+        </div>
+        <div id="slideContent">
+          <!-- Populated dynamically by slides.js & app.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 2: ANALYTICS REPORT
+       ======================================================================== -->
+  <div id="reportModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 750px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          System Performance &amp; Safety Compliance Audit Report
+        </div>
+        <button id="btnCloseReport" class="modal-close-btn">&times;</button>
+      </div>
+      <div id="reportBody" class="modal-body">
+        <!-- Generated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/models.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/slides.js"></script>
+  <script src="js/simulation.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
