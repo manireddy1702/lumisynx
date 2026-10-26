@@ -1,5 +1,5 @@
 /**
- * MAXTRIX v2.0 / LumiSynx - Main Web Application Controller
+ * LUMISYNX v2.0 / LumiSynx - Main Web Application Controller
  * Glues Simulation, HTML5 Canvas Renderer, Gauges, Real-Time Charts,
  * Explainable AI Panels, Matrix LED Visualizer, and UART Terminal.
  */
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Initial Boot Logs
-  logToUart("--- MAXTRIX v2.0 DIGITAL TWIN INITIALIZED ---", "boot");
+  logToUart("--- LUMISYNX v2.0 DIGITAL TWIN INITIALIZED ---", "boot");
   logToUart("[BOOT] Core 0: Decision & Optical Fusion loop (50Hz) started.", "boot");
   logToUart("[BOOT] Core 1: V2V 2.4GHz Transceiver & Kinematic Firewall active.", "boot");
   logToUart("[BOOT] Dual Intelligent Vehicle Architecture: ONLINE.", "boot");
@@ -415,7 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("download", `MAXTRIX_Telemetry_${Date.now()}.csv`);
+    link.setAttribute("download", `LUMISYNX_Telemetry_${Date.now()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -510,7 +510,7 @@ document.addEventListener("DOMContentLoaded", () => {
     reportBody.innerHTML = `
       <div style="display: flex; flex-direction: column; gap: 14px;">
         <div style="background: var(--surface); border: 1px solid var(--border); padding: 12px; border-radius: var(--radius);">
-          <h3 style="color: var(--text); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">MAXTRIX v2.0 - System Performance Summary</h3>
+          <h3 style="color: var(--text); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">LUMISYNX v2.0 - System Performance Summary</h3>
           <p style="color: var(--text-muted); font-size: 11px;">Aggregated digital twin telemetry across ${sim.analyticsEngine.tickCount} physics ticks (${(sim.analyticsEngine.tickCount * 0.02).toFixed(1)}s elapsed).</p>
         </div>
 

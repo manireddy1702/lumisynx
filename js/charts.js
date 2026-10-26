@@ -1,5 +1,5 @@
 /**
- * MAXTRIX v2.0 / LumiSynx - Telemetry Charts & Circular SVG Dial Gauges
+ * LUMISYNX v2.0 / LumiSynx - Telemetry Charts & Circular SVG Dial Gauges
  * Strict Minimalist Monochrome Edition: Pure Black, White, and Greys
  * Series distinguished by line style (solid, dashed, dotted), no colors, zero glow.
  */

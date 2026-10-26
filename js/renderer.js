@@ -1,5 +1,5 @@
 /**
- * MAXTRIX v2.0 / LumiSynx - High Performance HTML5 Canvas Road Renderer
+ * LUMISYNX v2.0 / LumiSynx - High Performance HTML5 Canvas Road Renderer
  * Minimalist Monochrome Edition: Pure Black, White, and Greys
  */
 

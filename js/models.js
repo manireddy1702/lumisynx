@@ -1,5 +1,5 @@
 /**
- * MAXTRIX v2.0 / LumiSynx - Core Data Models & Mathematical Subsystems
+ * LUMISYNX v2.0 / LumiSynx - Core Data Models & Mathematical Subsystems
  * Weather Model, Regulatory Profiles, Human Comfort Index, Prediction & NVS
  */
 
@@ -276,7 +276,7 @@ class PacketManager {
 // ============================================================================
 class CalibrationManager {
   constructor() {
-    this.storageKey = "maxtrix_v2_calibration_nvs";
+    this.storageKey = "LUMISYNX_v2_calibration_nvs";
     this.defaultCalibration = {
       decision_engine: {
         pd_gain: 1.2,

@@ -1,5 +1,5 @@
 /**
- * MAXTRIX v2.0 / LumiSynx - Decision Engine, Sensors, V2V Network & Traffic Coordination
+ * LUMISYNX v2.0 / LumiSynx - Decision Engine, Sensors, V2V Network & Traffic Coordination
  * Full simulation core with Explainable AI & Matrix Headlight Segment Computations
  */
 

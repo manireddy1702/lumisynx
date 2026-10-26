@@ -1,5 +1,5 @@
 /**
- * MAXTRIX v2.0 / LumiSynx - Synthesized Automotive Audio Engine
+ * LUMISYNX v2.0 / LumiSynx - Synthesized Automotive Audio Engine
  * Pure Web Audio API generation with no external audio assets needed
  */
 

@@ -1,12 +1,12 @@
 /**
- * MAXTRIX v2.0 / LumiSynx - Complete Architecture Slides Data
+ * LUMISYNX v2.0 / LumiSynx - Complete Architecture Slides Data
  * Ports all 15 technical presentation slides from create_presentation.py
  */
 
 const SLIDES_DATA = [
   {
     num: "01",
-    title: "LumiSynx / MAXTRIX v2.0",
+    title: "LumiSynx / LUMISYNX v2.0",
     subtitle: "Cooperative Adaptive Headlight & V2V Intelligence System",
     category: "Overview",
     cards: [
@@ -231,7 +231,7 @@ const SLIDES_DATA = [
         title: "Target Performance Metric",
         desc: "Benchmark: Conventional headlights score 45-60% comfort during high-speed oncoming passes.",
         items: [
-          "MAXTRIX maintains > 88% comfort across all highway passing maneuvers",
+          "LUMISYNX maintains > 88% comfort across all highway passing maneuvers",
           "Environmental penalties applied dynamically for heavy rain (-5%), fog (-20%), and dust (-10%)"
         ]
       }

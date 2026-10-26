@@ -1,5 +1,5 @@
 /**
- * MAXTRIX v2.0 / LumiSynx - Simulation Coordinator
+ * LUMISYNX v2.0 / LumiSynx - Simulation Coordinator
  * 50Hz Loop coordinating physics, optical coupling, dual-vehicle intelligence,
  * V2V communications, security firewall, and scenario management.
  */
