@@ -1,11 +1,11 @@
-# LUMISYNX v2.0 / LumiSynx
+# LUMISYNX
 ### Cooperative Adaptive Headlight & V2V Intelligence Digital Twin
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-white.svg)](https://opensource.org/licenses/MIT)
 [![Platform: Web / ESP32-S3](https://img.shields.io/badge/Platform-Web%20%7C%20ESP32--S3-000000.svg)](https://espressif.com/)
 [![Standards: ECE R123 | AIS-008](https://img.shields.io/badge/Standards-ECE%20R123%20%7C%20AIS--008-black.svg)](https://unece.org/)
 
-LUMISYNX v2.0 (LumiSynx) is an automotive digital twin and embedded simulation platform for **Cooperative Vehicle-to-Vehicle (V2V) Adaptive Driving Beam (ADB)** lighting. Approaching vehicles exchange kinematic telemetry over low-latency RF wireless before visual line-of-sight to collaboratively negotiate beam shaping, eliminating oncoming blinding glare while maximizing driver forward stopping sight distance.
+LUMISYNX is an automotive digital twin and embedded simulation platform for **Cooperative Vehicle-to-Vehicle (V2V) Adaptive Driving Beam (ADB)** lighting. Approaching vehicles exchange kinematic telemetry over low-latency RF wireless before visual line-of-sight to collaboratively negotiate beam shaping, eliminating oncoming blinding glare while maximizing driver forward stopping sight distance.
 
 ---
 

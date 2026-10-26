@@ -1,12 +1,12 @@
 /**
- * LUMISYNX v2.0 / LumiSynx - Complete Architecture Slides Data
+ * LUMISYNX - Complete Architecture Slides Data
  * Ports all 15 technical presentation slides from create_presentation.py
  */
 
 const SLIDES_DATA = [
   {
     num: "01",
-    title: "LumiSynx / LUMISYNX v2.0",
+    title: "LumiSynx",
     subtitle: "Cooperative Adaptive Headlight & V2V Intelligence System",
     category: "Overview",
     cards: [

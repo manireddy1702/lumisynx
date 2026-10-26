@@ -1,5 +1,5 @@
 /**
- * LUMISYNX v2.0 / LumiSynx - Core Data Models & Mathematical Subsystems
+ * LUMISYNX - Core Data Models & Mathematical Subsystems
  * Weather Model, Regulatory Profiles, Human Comfort Index, Prediction & NVS
  */
 
